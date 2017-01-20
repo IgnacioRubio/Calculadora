@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+
+<html lang='es'>
+
+<head>
+
+	<!--
+	Ejercicio 23.
+
+	Realiza una calculadora con un formato similar a la siguiente:
+
+	**todo en una tabla
+
+	**text (con la operacion/resultado)
+	3+2
+
+	**button
+	7		8 		9		/
+	4		5		6		*
+	1		2 		3		-
+	0		.		+/-		+
+	(		)		sqrt	<- 
+
+		=				C
+	
+	-->
+
+	<title>Calculadora</title>
+	<meta charset='UTF-8'/>
+
+	<style type="text/css">
+
+		table,td{
+			border: 1px solid black;
+		}
+
+		td{
+			padding: 10px;
+		}
+
+		.botonesPeq td:hover,.botonesGrand td:hover{
+			background-color: #f2f2f2;
+		}
+
+		.pantalla, .botonesGrand{
+			text-align: center;
+		}
+
+		.botonesPeq button{
+			width: 35px;
+		}
+
+		.botonesGrand button{
+			width: 50px;
+		}
+
+	</style>
+
+	<script>
+		
+		function array2String(vector)
+		{
+			return vector.join("");
+		}
+
+		function string2Array(str)
+		{
+			return str.split("");
+		}
+
+	</script>
+
+	<script>
+
+		var operacion = "";
+		var vOperacion = new Array();
+
+
+		function mostrarOper()
+		{
+			document.getElementById("tPantalla").value = operacion;
+		}
+
+
+		function addOperacion(x)
+		{
+			if(operacion!="Syntax ERROR")
+			{
+				vOperacion.push(x);
+				operacion = array2String(vOperacion);
+				mostrarOper();
+			}	
+			
+		}
+
+		function eliminarUno()
+		{
+			if(operacion!="Syntax ERROR")
+			{
+				vOperacion.pop();
+
+				operacion = array2String(vOperacion);
+
+				mostrarOper();
+			}
+			
+		}
+
+		function eliminarTodo()
+		{
+			vOperacion = new Array();
+
+			operacion = "";
+
+			mostrarOper();
+		}
+
+		function evaluar()
+		{
+			if(operacion!="")
+			{
+				try{
+					var op = operacion.replace("sqrt", "Math.sqrt");
+					operacion = String(eval(op));
+					vOperacion = string2Array(operacion);
+					
+				}
+				catch(err){
+					operacion = "Syntax ERROR";
+					vOperacion = string2Array(operacion);
+				}
+
+				mostrarOper();
+			}
+			
+		}
+
+	</script>
+
+</head>
+
+<body>
+
+	<table>
+
+		<tr class="pantalla">
+			<td colspan="4">
+				<input type="text" id="tPantalla" readonly>
+			</td>
+		</tr>
+
+		<!--Fila 1 -->
+		<tr class="botonesPeq">
+			<td>
+				<button onclick="addOperacion('7')">7</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('8')">8</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('9')">9</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('/')">/</button>
+			</td>
+		</tr>
+
+		<!--Fila 2 -->
+		<tr class="botonesPeq">
+			<td>
+				<button onclick="addOperacion('4')">4</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('5')">5</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('6')">6</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('*')">*</button>
+			</td>
+		</tr>
+
+		<!--Fila 3 -->
+		<tr class="botonesPeq">
+			<td>
+				<button onclick="addOperacion('1')">1</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('2')">2</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('3')">3</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('-')">-</button>
+			</td>
+		</tr>
+
+		<!--Fila 4 -->
+		<tr class="botonesPeq">
+			<td>
+				<button onclick="addOperacion('0')">0</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('.')">.</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('3.141592654')">&pi;</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('+')">+</button>
+			</td>
+		</tr>
+
+		<!--Fila 5 -->
+		<tr class="botonesPeq">
+			<td>
+				<button onclick="addOperacion('(')">(</button>
+			</td>
+			<td>
+				<button onclick="addOperacion(')')">)</button>
+			</td>
+			<td>
+				<button onclick="addOperacion('sqrt')">sqrt</button>
+			</td>
+			<td>
+				<button onclick="eliminarUno()">&lt;-</button>
+			</td>
+		</tr>
+
+		<!--Fila 6 -->
+		<tr class="botonesGrand">
+			<td colspan="2">
+				<button onclick="evaluar()">=</button>
+			</td>
+			<td colspan="2">
+				<button onclick="eliminarTodo()">C</button>
+			</td>
+		</tr>
+
+	</table>
+
+
+
+</body>
+
+
+</html>
